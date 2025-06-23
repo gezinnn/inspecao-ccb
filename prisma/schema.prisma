@@ -12,6 +12,43 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
+model Igreja {
+  id         Int         @id @default(autoincrement())
+  nome       String
+  endereco   String
+  br         String
+  ministerios Ministerio[]
+  voluntarios Voluntario[]
+  inspecoes   Inspecao[]
+}
 
+model Ministerio {
+  id        Int      @id @default(autoincrement())
+  tipo      String   // Ancião, Diácono, Cop
+  igrejaId  Int
+  igreja    Igreja   @relation(fields: [igrejaId], references: [id])
+}
+
+model Voluntario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  dataNasc  DateTime
+  comum     String
+  funcao    String
+  igrejaId  Int
+  igreja    Igreja   @relation(fields: [igrejaId], references: [id])
+}
+
+model Inspecao {
+  id           Int      @id @default(autoincrement())
+  data         DateTime
+  responsavel  String
+  telefone     String
+  email        String
+  observacoes  String?
+  igrejaId     Int
+  igreja       Igreja   @relation(fields: [igrejaId], references: [id])
+}
