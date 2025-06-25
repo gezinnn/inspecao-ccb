@@ -18,6 +18,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form"
+import { toast } from "sonner"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useForm } from "react-hook-form"
@@ -55,10 +56,10 @@ export default function DialogNovaIgreja() {
 
       if (!res.ok) throw new Error("Erro ao cadastrar igreja")
 
-      alert("Igreja cadastrada com sucesso!")
-      form.reset() // limpa o formulário
+      toast.success("Igreja cadastrada com sucesso!")
+      form.reset() 
     } catch {
-      alert("Erro ao salvar")
+      toast.error("Erro ao salvar")
     } finally {
       setLoading(false)
     }
