@@ -23,3 +23,17 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    const voluntarios = await prisma.voluntario.findMany();
+    return NextResponse.json(voluntarios);
+  } catch (error) {
+    console.error("Erro ao buscar voluntario:", error);
+    return NextResponse.json(
+      { error: "Erro interno no servidor" },
+      { status: 500 }
+    );
+  }
+}
+
