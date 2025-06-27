@@ -52,6 +52,7 @@ type Igreja = {
 export default function DialogNovoVoluntario() {
   const [igrejas, setIgrejas] = useState<Igreja[]>([]);
   const [loading, setLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
 
   const form = useForm<VoluntarioFormData>({
     resolver: zodResolver(schema),
@@ -77,28 +78,31 @@ export default function DialogNovoVoluntario() {
   }, [form]);
 
   async function onSubmit(values: VoluntarioFormData) {
+    if (!file) {
+      toast.error("Selecione uma foto.");
+      return;
+    }
+
     setLoading(true);
     try {
-      console.log("Submit chamado com valores:", values);
-
-      const payload = {
-        ...values,
-        dataNasc: new Date(values.dataNasc),
-        igrejaId: parseInt(values.igrejaId),
-      };
+      const formData = new FormData();
+      formData.append("nome", values.nome);
+      formData.append("dataNasc", values.dataNasc);
+      formData.append("comum", values.comum);
+      formData.append("funcao", values.funcao);
+      formData.append("igrejaId", values.igrejaId);
+      formData.append("foto", file);
 
       const res = await fetch("/api/voluntarios", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
+        body: formData,
       });
 
       if (!res.ok) throw new Error("Erro ao cadastrar voluntário");
 
       toast.success("Voluntário cadastrado com sucesso!");
       form.reset();
+      setFile(null);
     } catch (error) {
       console.error(error);
       toast.error("Erro ao salvar");
@@ -177,6 +181,20 @@ export default function DialogNovoVoluntario() {
                 </FormItem>
               )}
             />
+            <FormItem>
+              <FormLabel>Foto</FormLabel>
+              <FormControl>
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    if (e.target.files?.[0]) {
+                      setFile(e.target.files[0]);
+                    }
+                  }}
+                />
+              </FormControl>
+            </FormItem>
 
             <FormField
               control={form.control}
