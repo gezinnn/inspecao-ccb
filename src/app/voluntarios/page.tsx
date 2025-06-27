@@ -10,6 +10,7 @@ type Voluntario = {
   nome: string;
   funcao: string;
   igrejaId: string;
+  foto?: string;
 };
 
 export default function Page() {
@@ -36,6 +37,7 @@ export default function Page() {
               nome={voluntario.nome}
               funcao={voluntario.funcao}
               igrejaId={voluntario.igrejaId}
+              foto={voluntario.foto}
             />
           ))}
       </div>
