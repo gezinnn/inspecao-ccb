@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   Dialog,
@@ -9,7 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Form,
   FormField,
@@ -17,25 +17,25 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "@/components/ui/form"
-import { toast } from "sonner"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
+} from "@/components/ui/form";
+import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 const schema = z.object({
   nome: z.string().min(3, "Nome Obrigatório"),
   endereco: z.string().min(5, "Endereço Obrigatório"),
   br: z.string().min(10, "Informe o BR corretamente"),
-})
+});
 
-type IgrejaFormData = z.infer<typeof schema>
+type IgrejaFormData = z.infer<typeof schema>;
 
 export default function DialogNovaIgreja() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<IgrejaFormData>({
     resolver: zodResolver(schema),
@@ -44,24 +44,24 @@ export default function DialogNovaIgreja() {
       endereco: "",
       br: "",
     },
-  })
+  });
 
   async function onSubmit(values: IgrejaFormData) {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await fetch("/api/igrejas", {
         method: "POST",
         body: JSON.stringify(values),
-      })
+      });
 
-      if (!res.ok) throw new Error("Erro ao cadastrar igreja")
+      if (!res.ok) throw new Error("Erro ao cadastrar igreja");
 
-      toast.success("Igreja cadastrada com sucesso!")
-      form.reset() 
+      toast.success("Igreja cadastrada com sucesso!");
+      form.reset();
     } catch {
-      toast.error("Erro ao salvar")
+      toast.error("Erro ao salvar");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -136,5 +136,5 @@ export default function DialogNovaIgreja() {
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
