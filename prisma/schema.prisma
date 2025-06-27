@@ -20,6 +20,7 @@ model Igreja {
   nome       String
   endereco   String
   br         String
+  foto      String?
   ministerios Ministerio[]
   voluntarios Voluntario[]
   inspecoes   Inspecao[]
@@ -27,7 +28,7 @@ model Igreja {
 
 model Ministerio {
   id        Int      @id @default(autoincrement())
-  tipo      String   // Ancião, Diácono, Cop
+  tipo      String  
   igrejaId  Int
   igreja    Igreja   @relation(fields: [igrejaId], references: [id])
 }
@@ -38,6 +39,7 @@ model Voluntario {
   dataNasc  DateTime
   comum     String
   funcao    String
+  foto      String?
   igrejaId  Int
   igreja    Igreja   @relation(fields: [igrejaId], references: [id])
 }
