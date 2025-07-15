@@ -1,4 +1,4 @@
-import { User2Icon, Home, Settings, Church } from "lucide-react"
+import { User2Icon, Home, Settings, Church, Calendar } from "lucide-react"
 
 import {
   Sidebar,
@@ -14,24 +14,29 @@ import {
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
     title: "Igrejas",
-    url: "#",
+    url: "/igrejas",
     icon: Church,
   },
   {
     title: "Voluntários",
-    url: "#",
+    url: "/voluntarios",
     icon: User2Icon,
   },
   {
-    title: "Settings",
+    title: "Configurações",
     url: "#",
     icon: Settings,
   },
+  {
+    title:"Calendário",
+    url: "#",
+    icon: Calendar,
+  }
 ]
 
 export function AppSidebar() {
@@ -39,7 +44,7 @@ export function AppSidebar() {
     <Sidebar className="h-screen w-64">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
+          <SidebarGroupLabel>CCB INSPEÇÃO</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
